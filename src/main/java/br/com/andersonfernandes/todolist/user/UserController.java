@@ -16,7 +16,7 @@ public class UserController {
 
     @Autowired
     private IUserRepository userRepository;
-    
+
     @PostMapping("/")
     public ResponseEntity create(@RequestBody UserModel userModel) {
         var user = this.userRepository.findByUsername(userModel.getUsername());
@@ -26,12 +26,12 @@ public class UserController {
         }
 
         var passwordHashed = BCrypt.withDefaults()
-            .hashToString(12, userModel.getPassword().toCharArray());
+                .hashToString(12, userModel.getPassword().toCharArray());
 
         userModel.setPassword(passwordHashed);
 
         var userCreated = this.userRepository.save(userModel);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(userCreated);
+        return ResponseEntity.status(HttpStatus.OK).body(userCreated);
     }
 }
